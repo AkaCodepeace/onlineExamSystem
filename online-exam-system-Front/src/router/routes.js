@@ -29,7 +29,7 @@ export const routes = [
           name: 'Home',
           component: () => import('../views/main/Home.vue'),
           meta:{
-            title:'考试汇'
+            title:'在线考试系统'
           },
         },
         {

@@ -27,12 +27,12 @@ export default new Vuex.Store({
         path:"/main/myTest",
         name:"MyTest"
       },
-      {
-        i:"el-icon-tickets",
-        title:"我的题库",
-        path:"/main/topic",
-        name:"Topic"
-      },
+      // {
+      //   i:"el-icon-tickets",
+      //   title:"我的题库",
+      //   path:"/main/topic",
+      //   name:"Topic"
+      // },
       // {
       //   i:"el-icon-document-checked",
       //   title:"审批试卷",
@@ -73,16 +73,16 @@ export default new Vuex.Store({
       },
       {
         i:"el-icon-edit-outline",
-        title:"我考过的试卷",
+        title:"考过的试卷",
         path:"/main/MyFinishTest",
         name:"MyFinishTest"
       },
-      {
-        i:"el-icon-message",
-        title:"我的消息",
-        path:"/main/myMessage/inboxes",
-        name:["Inboxes","SendMessage","MyMessage"]
-      },
+      // {
+      //   i:"el-icon-message",
+      //   title:"我的消息",
+      //   path:"/main/myMessage/inboxes",
+      //   name:["Inboxes","SendMessage","MyMessage"]
+      // },
       {
         i:"el-icon-user",
         title:"个人中心",
@@ -139,7 +139,8 @@ export default new Vuex.Store({
       commit('setUserPhoto',  res.data.photo)
       return res.data;
     }
-  },
-  modules: {
   }
+  // ,
+  // modules: {
+  // }
 })
