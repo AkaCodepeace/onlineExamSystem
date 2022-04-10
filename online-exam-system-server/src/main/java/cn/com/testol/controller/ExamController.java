@@ -132,5 +132,16 @@ public class ExamController {
         return markExamService.submitTestPaper(stuSubmitExamDTO,u_id);
     }
 
+    //删除试卷（老师角色）
+    @ApiOperation(value = "删除试卷（老师角色）")
+    @DeleteMapping(value = "/deleteTestPaperByTp_id" )
+    public Msg deleteTestPaperTp_id(HttpServletRequest request,@RequestParam int examId){
+        String token =  request.getHeader("token");
+        if(!JwtUtil.getUserStatus(token).equals("teacher")) {
+            return ResultUtil.error(400, "用户身份不正确");
+        }
+        return examService.tchDeleteByPrimaryKey(examId);
+    }
+
 
 }

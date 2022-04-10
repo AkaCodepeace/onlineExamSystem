@@ -2,7 +2,7 @@
   <div class="markTest">
     <TopTab title="审批试卷">
       <div class="content">
-        <!-- <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
           <el-tab-pane label="待审批" name="mark">待审批</el-tab-pane>
           <el-tab-pane label="审批完成" name="finish">审批完成</el-tab-pane>
           <el-tab-pane label="全部" name="all">
@@ -32,7 +32,7 @@
             </el-collapse>
 
           </el-tab-pane>
-        </el-tabs> -->
+        </el-tabs>
 
         <el-collapse v-model="activeTestPaperList" @change="handleChange">
           <el-collapse-item :title="'E'+item.examId+' '+item.examName" :name="item.examId" v-for="(item , index) in testPaperList" :key="index">

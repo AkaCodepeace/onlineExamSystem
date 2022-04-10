@@ -1,36 +1,59 @@
 <template>
-  <div class="myTest content-bg ">
+  <div class="myTest content-bg">
     <div class="tab-title">
       <div class="tabTitle-item active">我的试卷</div>
     </div>
     <div class="tab-item">
       <div class="list-header">
         <span class="list-title">我创建的试卷</span>
-        <el-button type="primary" size="medium" icon="el-icon-plus"  @click="createTestPaper" class="create">新建试卷</el-button>
+        <el-button
+          type="primary"
+          size="medium"
+          icon="el-icon-plus"
+          @click="createTestPaper"
+          class="create"
+          >新建试卷</el-button
+        >
         <div class="query">
-          <el-input v-model="keyword" size="small" placeholder="请输入试卷编号或者试卷名称" prefix-icon="el-icon-search"></el-input>
-          <el-button type="primary" size="small" @click="getTestPaperList(keyword)">查询</el-button>
+          <el-input
+            v-model="keyword"
+            size="small"
+            placeholder="请输入试卷编号或者试卷名称"
+            prefix-icon="el-icon-search"
+          ></el-input>
+          <el-button
+            type="primary"
+            size="small"
+            @click="getTestPaperList(keyword)"
+            >查询</el-button
+          >
         </div>
       </div>
 
       <div class="table">
         <el-table :data="testPaperList" style="width: 100%" v-loading="loading">
           <el-table-column label="试卷编号" width="110">
-            <template slot-scope="scope">E{{scope.row.examId}} </template>
+            <template slot-scope="scope">E{{ scope.row.examId }} </template>
           </el-table-column>
           <el-table-column label="试卷名称" min-width="220">
-            <template slot-scope="scope">{{scope.row.examName}} </template>
+            <template slot-scope="scope">{{ scope.row.examName }} </template>
           </el-table-column>
           <el-table-column prop="topicNum" label="题目数量" width="110">
           </el-table-column>
           <el-table-column label="是否打乱题目顺序" width="150">
-            <template slot-scope="scope">{{scope.row.disruptOrder === 1 ? '是':'否'}} </template>
+            <template slot-scope="scope"
+              >{{ scope.row.disruptOrder === 1 ? "是" : "否" }}
+            </template>
           </el-table-column>
           <el-table-column label="允许页面切换次数" width="150">
-            <template slot-scope="scope">{{scope.row.switchPage === -1 ? '--':scope.row.switchPage}} </template>
+            <template slot-scope="scope"
+              >{{ scope.row.switchPage === -1 ? "--" : scope.row.switchPage }}
+            </template>
           </el-table-column>
           <el-table-column label="是否自动评改" width="150">
-            <template slot-scope="scope">{{scope.row.autoMack === 1 ? '是':'否'}} </template>
+            <template slot-scope="scope"
+              >{{ scope.row.autoMack === 1 ? "是" : "否" }}
+            </template>
           </el-table-column>
           <el-table-column prop="totalScore" label="总分" width="110">
           </el-table-column>
@@ -43,48 +66,92 @@
             </template>
           </el-table-column>
           <!-- <el-table-column prop="subjectName" label="试卷类型" width="100"> </el-table-column> -->
-          <el-table-column label="操作" width="240" fixed="right">
+          <el-table-column label="操作" width="300px" fixed="right">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" plain @click="releaseTest(scope.row.examId,scope.row.examName)">发布考试</el-button>
-              <el-button v-if="scope.row.releasing === 0" type="info" size="mini" plain @click="editTestPaper(scope.row.examId)">编辑</el-button>
-              <el-button v-if="scope.row.releasing === 0" type="danger" size="mini" plain @click="deleteTest(scope.row.examId)">删除</el-button>
-              <el-button v-if="scope.row.releasing === 1" type="info" size="mini" plain @click="editTestPaper(scope.row.examId)">查看试卷</el-button>
+              <el-button
+                type="primary"
+                size="mini"
+                plain
+                @click="releaseTest(scope.row.examId, scope.row.examName)"
+                >发布考试</el-button
+              >
+              <el-button
+                v-if="scope.row.releasing === 0"
+                type="info"
+                size="mini"
+                plain
+                @click="editTestPaper(scope.row.examId)"
+                >编辑</el-button
+              >
+              <el-button
+                v-if="scope.row.releasing === 1"
+                type="info"
+                size="mini"
+                plain
+                @click="editTestPaper(scope.row.examId)"
+                >查看试卷</el-button
+              >
+              <el-button
+                type="danger"
+                size="mini"
+                plain
+                @click="deleteTestPaper(scope.row.examId)"
+                >删除</el-button>
+               <!-- <el-dialog  
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :append-to-body="true"
+              >
+              <span>是否确认删除试卷E{{scope.row.examId}}？</span>
+                <span slot="footer" class="dialog-footer" >
+                  <el-button @click="dialogVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="deleteTestPaper(scope.row.examId)"
+                    >确 定</el-button
+                  >
+                </span>
+              </el-dialog>   -->
             </template>
+           
           </el-table-column>
-
         </el-table>
       </div>
 
       <div class="page">
-        <el-pagination background layout="total, prev, pager, next,jumper" @current-change="currentChange" :total="total" :page-size="pageSize" />
+        <el-pagination
+          background
+          layout="total, prev, pager, next,jumper"
+          @current-change="currentChange"
+          :total="total"
+          :page-size="pageSize"
+        />
       </div>
 
       <!-- 发布考试弹框 -->
-      <ReleaseTest ref="releaseTestDialog"/>
-
+      <ReleaseTest ref="releaseTestDialog" />
     </div>
   </div>
 </template>
 
 <script>
 import "../../assets/less/my_tab.less";
-import ReleaseTest from './components/ReleaseTest'
+import ReleaseTest from "./components/ReleaseTest";
 
 export default {
   name: "MyTest",
-  components: {ReleaseTest},
+  components: { ReleaseTest },
   data() {
     return {
       loading: true,
-      
-      testPaperList: [],// 所有的试卷列表
+      dialogVisible:false,
+      testPaperList: [], // 所有的试卷列表
 
       // 分页
       currentPage: 1,
       pageSize: 10,
       total: null,
 
-      keyword: '',
+      keyword: "",
     };
   },
 
@@ -94,48 +161,69 @@ export default {
 
   methods: {
     //获取试卷列表
-    getTestPaperList(val='') {
-      this.loading = true
+    getTestPaperList(val = "") {
+      this.loading = true;
       let params = {
         pageSize: this.pageSize,
         currentPage: this.currentPage,
-        keyword: val
+        keyword: val,
       };
       setTimeout(() => {
         this.$http.get("/getTestPaperByU_id", { params }).then((res) => {
           this.testPaperList = res.data.content;
           this.total = parseInt(res.data.total);
-          this.loading = false
+          this.loading = false;
         });
       }, 500);
     },
 
     //去创建新试卷
     createTestPaper() {
-      const { href } = this.$router.resolve({
+      // const { href } = this.$router.resolve({
+      //   name: "createExam",
+      //   params: { type: 'add'}
+      // });
+      // window.open(href, "_blank");
+      this.$router.push({
         name: "createExam",
-        params: { type: 'add'}
+        params: { type: "add" },
       });
-      window.open(href, "_blank");
     },
 
     // 发布试卷
-    releaseTest(examId,examName){
-      this.$refs.releaseTestDialog.releaseTest(examId,examName)
+    releaseTest(examId, examName) {
+      this.$refs.releaseTestDialog.releaseTest(examId, examName);
     },
-    
+
     // 编辑试卷
     editTestPaper(tp_id) {
-      const { href } = this.$router.resolve({
+      console.log(tp_id)
+      // const { href } = this.$router.resolve({
+      //   name: "editExam",
+      //   params: { type: 'edit', tp_id}
+      // });
+      // window.open(href, "_blank");
+      this.$router.push({
         name: "editExam",
-        params: { type: 'edit', tp_id}
+        params: { type: "edit", tp_id },
       });
-      window.open(href, "_blank");
     },
 
     //删除试卷
-    deleteTest(tp_id) {
-      
+    deleteTestPaper(tp_id) {
+      console.log(tp_id)
+      let params = {
+        examId: tp_id,
+      };
+      this.$http.delete("/deleteTestPaperByTp_id", { params }).then((res) => {
+        if (res.code == 200) {
+          this.$message.success("删除成功");
+          this.getTestPaperList();
+        } else {
+          this.$message.error("删除失败");
+        }
+        this.dialogVisible=false;
+      });
     },
 
     //切换分页时触发
@@ -148,28 +236,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.myTest{
-  .tab-item{
-      padding: 10px 20px;
+.myTest {
+  .tab-item {
+    padding: 10px 20px;
   }
-  .table{
+  .table {
     margin-top: 24px;
   }
-  .releaseTest .el-dialog{
-    .el-dialog__header{
-        text-align: center;
-        font-size: 16px;
+  .releaseTest .el-dialog {
+    .el-dialog__header {
+      text-align: center;
+      font-size: 16px;
     }
-    .el-dialog__body{
-        padding-top: 0px;
-        padding-bottom: 0px;
-        text-align: center;
+    .el-dialog__body {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      text-align: center;
     }
-    .pagination{
-        text-align: center;
+    .pagination {
+      text-align: center;
     }
-    .el-date-editor{
-        margin: 38px 0px;
+    .el-date-editor {
+      margin: 38px 0px;
     }
   }
 }

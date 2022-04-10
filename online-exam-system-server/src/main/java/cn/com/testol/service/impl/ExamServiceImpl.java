@@ -237,5 +237,18 @@ public class ExamServiceImpl implements ExamService {
         return ResultUtil.success(page);
     }
 
+    @Override
+    public Msg tchDeleteByPrimaryKey(int examId) {
+        List<ExamTopic> examTopics = examTopicDao.selectByExamId(examId);
+        ArrayList<Integer> list =new ArrayList<>();
+        for(ExamTopic examTopic : examTopics){
+            topicDao.deleteByPrimaryKey(examTopic.getTopicId());
+            examTopicDao.deleteRecord(examTopic.getExamId(),examTopic.getTopicId());
+        }
+        examDao.deleteByPrimaryKey(examId);
+        return ResultUtil.success();
+
+    }
+
 
 }

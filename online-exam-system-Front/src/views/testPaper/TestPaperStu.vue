@@ -22,6 +22,7 @@
 
           <li class="fr">
             <el-button type="primary" size="mini" @click="submitTestpaper" :disabled="isRead">提交试卷</el-button>
+            <el-button  type="success" size="mini" @click="$router.back(-1)" :disabled='!isRead'>返回</el-button>
           </li>
         </ul>
       </div>
@@ -36,6 +37,7 @@
           <!-- {{expendTime}} -->
           <li class="fr">
             <el-button type="primary" size="mini" @click="submitTestpaper" :disabled="isRead">提交试卷</el-button>
+             <el-button v-if="back"  type="success" size="mini" @click="$router.back(-1)" :disabled='!isRead' >返回</el-button>          
           </li>
         </ul>
       </div>
@@ -166,6 +168,7 @@ export default {
   mixins: [testPaperMixin],
   data() {
     return {
+      back:false,
       userName: this.$store.state.userName,
       //按题目类型分类好的题目数据
       //题目类型==>  0:单选题  1:多选题  2:判断题  3:填空题  4:简答题
@@ -217,6 +220,10 @@ export default {
 
   methods: {
     //提交试卷
+    // back(){
+    //   this.back=false
+    //   this.$router.go(-1);
+    // },
     submitTestpaper() {
       var topic = [];
       console.log(this.testData.topicTchDTOList);

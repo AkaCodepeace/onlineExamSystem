@@ -44,7 +44,7 @@ export default {
     return {
       activeId: "-1",
 
-      enterClasses_id: "",//申请加入班级的id
+      enterClasses_id: "",//班级的id
 
       dialogVisible: false,//查询班级对话框
 

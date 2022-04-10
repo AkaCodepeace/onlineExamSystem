@@ -22,6 +22,7 @@
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
 			</div>
+      
       <div class="userInfo">
         <div class="item">
           <span class="title">用户Id :</span>
@@ -48,12 +49,42 @@
           <div class="con">{{userData.createDate}}</div>
         </div>
         <div class="item">
-          <span class="title">工 作 :</span>
+          <span class="title">身 份 :</span>
           <div class="con work">{{userData.work}}</div>
         </div>
-      </div>
+        <div class="item-button">
+          <el-button type="primary" @click="getUserData()&(dialogFormVisible = true)">编辑信息</el-button>
+        </div>
+      </div>   
+     <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="30%">
+       <el-form :model="form" :rules="rules" ref="meForm">
+         <el-form-item label="用户名" :label-width="formLabelWidth" prop="name">
+           <el-input v-model="form.userName" autocomplete="off"></el-input>
+         </el-form-item>
+      
+        <el-form-item label="邮 箱" :label-width="formLabelWidth" prop="email">
+           <el-input v-model="form.email" autocomplete="off"></el-input>
+        </el-form-item>
+        
+        <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
+           <el-input v-model="form.phone" autocomplete="off"></el-input>
+        </el-form-item>
 
+         <el-form-item label="性别" :label-width="formLabelWidth" prop="sex">
+          <el-radio v-model="form.sex" label="男">男</el-radio>
+          <el-radio v-model="form.sex" label="女">女</el-radio>
+        </el-form-item>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="updateUser('meForm')">确 定</el-button>
+        </div>
+      </el-dialog>
+
+  
     </div>
+    
   </div>
 </template> 
 
@@ -65,13 +96,63 @@ import "@/assets/less/main/me.less";
 export default {
   name: "Me",
   data() {
+    var checkName = (rule, value, callback) => { 
+        var reg = /^[\u4e00-\u9fa5\w]{3,16}$/;
+        if(!reg.test(value)){
+            callback(new Error('用户名只能是3-16位汉字、字母、数字、下划线'));
+        }else{
+            callback()
+        }
+    };
+    var checkPhone = (rule, value, callback) => { 
+        if(value==""){
+            callback()
+        }
+        var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+        if(!reg.test(value)){
+            callback(new Error('请输入正确的手机号码'));
+        }else{
+            callback()
+        }
+    };
+    var checkEmail = (rule, value, callback) => { 
+        if(value==""){
+            callback()
+        }
+        var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if(!reg.test(value)){
+            callback(new Error('请输入正确的邮箱地址'));
+        }else{
+            callback()
+        }
+    };
     return {
+      dialogVisible: false,
       userData: [],
 			imageUrl: '',
 			token: "",
 			fileList: [],
       autoUpload: true,
-      actionURL: this.$baseURL+'/upload'
+      actionURL: this.$baseURL+'/upload',
+      dialogFormVisible: false,
+      form: {
+        userName: '',
+        email: '',
+        phone: '',
+        sex: ''
+      },
+      formLabelWidth: '120px',
+      rules:{
+          name:[
+              { validator: checkName, trigger: 'change' },
+          ],
+          phone:[
+              { validator: checkPhone, trigger: 'blur' },
+          ],
+          email:[
+              { validator: checkEmail, trigger: 'blur' },
+          ]
+      },
     };
   },
   created() {
@@ -81,10 +162,52 @@ export default {
   },
 
   methods: {
+    updateUser(formName){
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+             let request = {
+               userId:this.userData.userId,
+               userName:this.form.userName,
+               email:this.form.email,
+               phone:this.form.phone,
+               sex:this.form.sex
+              }
+              this.$http.put('/updateUser',request).then(res =>{
+                if(res.code == 200){
+                  this.getUserData();
+                  this.$message.success("修改成功");
+                  this.dialogFormVisible = false
+                }
+              })
+             
+          }else{
+            this.dialogFormVisible = true
+            this.$message.error("修改失败");
+            console.log('error submit!!');
+            return false;
+          }
+      })
+     
+    },
+    //路由跳转
+    goRouter(path){
+      this.$router.push(path)
+    },
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
     // 获取用户信息
     async getUserData() {
       const res = await this.$http.get(this.$api.user.getUserById)
       this.userData = res.data
+      this.form.userName=this.userData.userName
+      this.form.email=this.userData.email
+      this.form.phone=this.userData.phone
+      this.form.sex=this.userData.sex
 
       if(res.data.photo){
         this.fileList = [{

@@ -68,7 +68,11 @@ public class UserController {
     public Msg register(@RequestBody RegisterDTO registerDTO) throws ParseException {
         User user=new User();
         BeanUtils.copyProperties(registerDTO,user);
-
+        if(registerDTO.getRole().equals("student")){
+            user.setWork("学生");
+        }else if(registerDTO.getRole().equals("teacher")){
+            user.setWork("教师");
+        }
         return userService.addUser(user,registerDTO.getPassword());
     }
 

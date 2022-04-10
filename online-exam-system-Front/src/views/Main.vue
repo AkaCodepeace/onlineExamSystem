@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="header">
-      <div class="logo" @click="goRouter('/main/home','Home')">考试汇</div>
+      <div class="logo" @click="goRouter('/main/home','Home')">考试通</div>
       <div class="person" >
         <div class="img">
           <template>
@@ -10,10 +10,10 @@
         </div>
         <div class="name">{{$store.state.userName}}</div>
         <div class="dropdown" >
-          <div class="item">个人中心</div>
-          <div class="item">我的消息</div>
-          <div class="item" v-if="$role('teacher')" @click="changeRole()">变更为学生身份</div>
-          <div class="item" v-if="$role('student')" @click="changeRole()">变更为教师身份</div>
+          <div class="item" @click="goRouter('/main/me','me')">个人中心</div>
+          <div class="item" v-if="$role('teacher')" @click="goRouter('/main/myMessage/inboxes','myMessage')">我的消息</div>
+          <!-- <div class="item" v-if="$role('teacher')" @click="changeRole()">变更为学生身份</div>
+          <div class="item" v-if="$role('student')" @click="changeRole()">变更为教师身份</div> -->
           <div class="item" @click="loginOut">退出登录</div>
         </div>
       </div>
@@ -106,20 +106,30 @@ export default {
     },
 
     //切换身份
-    changeRole(){
-      this.$http.put('/changeRole',{}).then(res =>{
-        if(res.code == 200){
-          this.$message.success('变更身份成功')
-          // this.$router.push("/main/home")
-          localStorage.setItem('_token', res.data.token);
-          // this.$router.go(0)
-          this.$router.push({
-            name: 'Home'
-          })
-          this.reload()
-        }
-      })
-    },
+    // changeRole(){
+    //   this.$http.put('/changeRole',{}).then(res =>{
+    //     if(res.code == 200){
+    //       this.$message.success('变更身份成功')
+    //       // this.$router.push("/main/home")
+    //       localStorage.setItem('_token', res.data.token);
+    //       // this.$router.go(0)
+    //       this.$router.push({
+    //         name: 'Home'
+    //       })
+    //       this.reload()
+    //     }
+    //   })
+    // },
+
+    //跳转到个人中心
+    // preCenter(){
+    //   this.$router.replace("/main/me")
+    // },
+    //跳转到我的消息
+    // myMessage(){
+    //   this.$router.replace("/main/myMessage/inboxes")
+    // },
+
    
     //退出登录
     loginOut(){
