@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService{
 
             user.setCreateDate(new Date());
             user.setUpdateDate(new Date());
-            user.setRole("student");
+
             userDao.insert(user);
 
             userPasswordDao.insert(new UserPassword(user.getUserId() ,password));

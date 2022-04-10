@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="info">
-      <p>欢迎使用在线考试系统</p>
+      <p>欢迎使用考试通</p>
       <!-- {{$store.state.user_id}} -->
       <el-form :model="form" status-icon :rules="rules" ref="loginForm" label-width="auto">
         <el-form-item label="账号" prop="name">

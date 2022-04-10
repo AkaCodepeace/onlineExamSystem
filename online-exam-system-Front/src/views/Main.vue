@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="header">
-      <div class="logo" @click="goRouter('/main/home','Home')">考试汇</div>
+      <div class="logo" @click="goRouter('/main/home','Home')">考试通</div>
       <div class="person" >
         <div class="img">
           <template>
@@ -10,8 +10,8 @@
         </div>
         <div class="name">{{$store.state.userName}}</div>
         <div class="dropdown" >
-          <div class="item">个人中心</div>
-          <div class="item" v-if="$role('teacher')">我的消息</div>
+          <div class="item" @click="goRouter('/main/me','me')">个人中心</div>
+          <div class="item" v-if="$role('teacher')" @click="goRouter('/main/myMessage/inboxes','myMessage')">我的消息</div>
           <!-- <div class="item" v-if="$role('teacher')" @click="changeRole()">变更为学生身份</div>
           <div class="item" v-if="$role('student')" @click="changeRole()">变更为教师身份</div> -->
           <div class="item" @click="loginOut">退出登录</div>
@@ -120,6 +120,16 @@ export default {
     //     }
     //   })
     // },
+
+    //跳转到个人中心
+    // preCenter(){
+    //   this.$router.replace("/main/me")
+    // },
+    //跳转到我的消息
+    // myMessage(){
+    //   this.$router.replace("/main/myMessage/inboxes")
+    // },
+
    
     //退出登录
     loginOut(){

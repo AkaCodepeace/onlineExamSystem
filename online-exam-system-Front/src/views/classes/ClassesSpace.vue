@@ -3,7 +3,7 @@
     <div class="classesInfo" v-loading="loading">
       <div class="tital">
         <h2>C{{ classesData.classesId }}&nbsp;&nbsp; {{ classesData.classesName }} </h2>
-        <span class="editClasses" @click="editClasses">修改班级信息<i class="el-icon-edit"></i></span>
+        <el-button type="primary" v-if="$role('teacher')"  class="editClasses" @click="editClasses">修改班级信息<i class="el-icon-edit"></i></el-button>
       </div>
 
       <div class="details">
@@ -78,9 +78,9 @@
         <el-table-column label="身份">
           <template slot-scope="scope">{{scope.row.position}} </template>
         </el-table-column>
-        <el-table-column prop="operate" label="操作" width="300">
+        <el-table-column prop="operate" label="操作" width="300" v-if="$role('teacher')">
           <template slot-scope="scope" v-if="tab_classes=='user_list'">
-            <el-button type="primary" size="small" @click="openPaper(scope.row.classesId, scope.row.classes.name)" plain>查看该学生的考试记录</el-button>
+            <!-- <el-button type="primary" size="small" @click="openPaper(scope.row.classesId, scope.row.classes.name)" plain>查看该学生的考试记录</el-button> -->
             <el-button type="danger" size="small" @click="outUser(scope.row.userId)" plain>踢出班级</el-button>
           </template>
         </el-table-column>
@@ -312,14 +312,21 @@ export default {
 
     //开始考试
     openTestPaper(val) {
-      var { href } = this.$router.resolve({
+      this.$router.push({
         name: "TestPaperStu",
         params: {
           tp_id: val.examId,
           c_id: this.classesData.classesId,
         },
       });
-      window.open(href, "_blank");
+      // var { href } = this.$router.resolve({
+      //   name: "TestPaperStu",
+      //   params: {
+      //     tp_id: val.examId,
+      //     c_id: this.classesData.classesId,
+      //   },
+      // });
+      // window.open(href, "_blank");
     },
 
     //切换分页时触发

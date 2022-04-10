@@ -28,9 +28,16 @@
         <el-form-item label="手机号码" prop="phone">
           <el-input v-model="form.phone" placeholder="可不填"></el-input>
         </el-form-item>
-
-
-
+        <el-form-item label="身份" prop="role">
+          <el-select v-model="form.role" placeholder="请选择身份">
+            <el-option label="学生" value="student"></el-option>
+            <el-option label="教师" value="teacher"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-radio v-model="form.sex" label="男">男</el-radio>
+          <el-radio v-model="form.sex" label="女">女</el-radio>
+        </el-form-item>
         <div class="register-but" @click="register('registerForm')">注册</div>
 
       </el-form>
@@ -61,7 +68,7 @@ export default {
         };
         var checkPassword2 = (rule, value, callback) => { 
             if(value!=this.form.password){
-                callback(new Error('两次输入密码不一致!'));
+                callback(new Error('0!'));
             }else{
                 callback()
             }
@@ -94,7 +101,9 @@ export default {
           password:'',
           checkPass:'',
           phone:'',
-          email:''
+          email:'',
+          role:'',
+          sex:'',
       },
       rules:{
           name:[
@@ -115,6 +124,10 @@ export default {
           email:[
               { required: true, message: '请输入邮箱地址', trigger: 'blur' },
               { validator: checkEmail, trigger: 'blur' },
+          ],
+          role:[
+            { required: true, message: '请选择身份', trigger: 'change' },
+           
           ]
       },
         
@@ -122,7 +135,7 @@ export default {
   },
   methods:{
     //表单提交
-    register(formName){
+    register(){
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
@@ -132,6 +145,8 @@ export default {
                 password:this.form.password,
                 email:this.form.email,
                 phone:this.form.phone,
+                role:this.form.role,
+                sex:this.form.sex
             }
             this.$http.post('/register',request).then(res =>{
               if(res.code == 200){
@@ -157,6 +172,6 @@ export default {
 
 <style lang="less" scoped>
 .register .info{
-  height: 480px;
+  height: 600px;
 }
 </style>
