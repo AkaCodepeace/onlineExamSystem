@@ -69,7 +69,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['activeName','tchNav','stuNav','userName','userRole'])
+    ...mapState(['activeName','adminNav','tchNav','stuNav','userName','userRole'])
   },
 
   async created(){
@@ -77,6 +77,8 @@ export default {
       this.menu = this.tchNav;
     }else if(this.userRole == "student"){
       this.menu = this.stuNav;
+    }else if(this.userRole == "admin"){
+      this.menu = this.adminNav;
     }else{
       this.$router.push("/Login")
     }

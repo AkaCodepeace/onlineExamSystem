@@ -43,6 +43,10 @@ public class ClassesServiceImpl implements ClassesService {
             if(role.equals(Role.teacher.getValue())){
                 userClassesList = classesDao.selectByCreatorId(u_id,keyword);
             }
+
+            if(role.equals(Role.admin.getValue())){
+                userClassesList = classesDao.selectByCreatorId(u_id,keyword);
+            }
             
             return ResultUtil.success(userClassesList);
         }catch (Exception e){

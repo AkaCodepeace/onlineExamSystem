@@ -92,6 +92,11 @@ export const routes = [
           component: () => import('../views/main/MyCheckTest.vue'),
         },
         {
+          path:"userManage",
+          name:"UserManage",
+          component:() => import('../views/main/UserManage.vue')
+        },
+        {
           path:"myMessage",
           name:"MyMessage",
           component: () => import('../views/main/myMessage/MyMessage.vue'),

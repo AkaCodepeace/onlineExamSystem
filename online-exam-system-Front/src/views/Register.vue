@@ -135,7 +135,7 @@ export default {
   },
   methods:{
     //表单提交
-    register(){
+    register(formName){
         this.$refs[formName].validate((valid) => {
           if (valid) {
 

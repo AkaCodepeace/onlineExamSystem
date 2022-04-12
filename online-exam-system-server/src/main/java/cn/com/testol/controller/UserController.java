@@ -6,6 +6,7 @@ import cn.com.testol.dao.UserDao;
 import cn.com.testol.utils.JwtUtil;
 import cn.com.testol.utils.Page;
 import cn.com.testol.utils.ResultUtil;
+import cn.com.testol.utils.Page;
 import cn.com.testol.utils.Msg;
 import cn.com.testol.entity.User;
 import cn.com.testol.service.UserService;
@@ -72,6 +73,8 @@ public class UserController {
             user.setWork("学生");
         }else if(registerDTO.getRole().equals("teacher")){
             user.setWork("教师");
+        }else if(registerDTO.getRole().equals("admin")){
+            user.setWork("管理员");
         }
         return userService.addUser(user,registerDTO.getPassword());
     }
@@ -131,4 +134,15 @@ public class UserController {
             return "注销失败";
         }
     }
+
+    @ApiOperation(value = "教师或者学生信息表")
+    @GetMapping(value = "/getUserManageList")
+    public Msg getTchManageList(@RequestParam int pageSize,@RequestParam int currentPage,@RequestParam String role) {
+
+        Msg result =  userService.getTchManageList(role);
+        Page  page = new Page(pageSize,currentPage);
+        page.build((List) result.getData());
+        return ResultUtil.success(page);
+    }
+
 }

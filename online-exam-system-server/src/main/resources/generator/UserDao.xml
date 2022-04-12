@@ -29,6 +29,15 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="enter_date" jdbcType="TIMESTAMP" property="enterDate" />
   </resultMap>
+  <resultMap id="UserPerInformationDTO" type="cn.com.testol.DTO.UserPerInformationDTO">
+    <id column="user_id"  jdbcType="INTEGER" property="userId"/>
+    <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    <result column="sex" jdbcType="VARCHAR" property="sex"/>
+    <result column="phone" jdbcType="VARCHAR" property="password"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="work" jdbcType="VARCHAR" property="work"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+  </resultMap>
   <sql id="Base_Column_List">
     user_id, user_name, sex, phone, email, `role`, `work`, update_date, create_date, 
     photo,photo_name
@@ -196,4 +205,12 @@
       photo_name = #{photoName,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectByTchManageList" resultType="UserPerInformationDTO" >
+    select u.user_id,u.user_id,u.sex,u.phone,u.email,u.`work`,
+           up.`password` from `user` u left outer join  user_password up
+           on u.user_id = up.user_id
+    where role = #{role}
+  </select>
 </mapper>

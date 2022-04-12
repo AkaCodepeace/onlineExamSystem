@@ -1,5 +1,6 @@
 package cn.com.testol.service.impl;
 
+import cn.com.testol.DTO.UserPerInformationDTO;
 import cn.com.testol.DTO.UserClassesDTO;
 import cn.com.testol.dao.ClassesDao;
 import cn.com.testol.dao.UserDao;
@@ -159,5 +160,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public int deleteUser(int id) {
         return userDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public Msg getTchManageList(String role) {
+        List<UserPerInformationDTO> res = userDao.selectByTchManageList(role);
+        return ResultUtil.success(res);
     }
 }

@@ -26,4 +26,7 @@ public interface UserService {
 
     //注销用户
     public int deleteUser(int id);
+
+    //查询教师信息
+    Msg getTchManageList(String role);
 }

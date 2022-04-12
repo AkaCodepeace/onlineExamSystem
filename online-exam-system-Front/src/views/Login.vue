@@ -28,8 +28,8 @@ export default {
   data() {
     return {
       form: {
-        name: '762489117@qq.com',
-        password:'admin',
+        name: '1063098164@qq.com',
+        password:123456789,
       },
       rules:{
           name:[
@@ -65,7 +65,7 @@ export default {
               if(res.code==200){
                 var data = res.data;
                 //登录成功跳转
-                localStorage.setItem('_token', data.token);
+                localStorage.setItem('_token', data.token);           
                 this.goRouter({name:"Home"})
               }
             })        
