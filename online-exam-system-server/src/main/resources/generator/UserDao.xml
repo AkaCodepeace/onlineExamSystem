@@ -33,7 +33,7 @@
     <id column="user_id"  jdbcType="INTEGER" property="userId"/>
     <result column="user_name" jdbcType="VARCHAR" property="userName"/>
     <result column="sex" jdbcType="VARCHAR" property="sex"/>
-    <result column="phone" jdbcType="VARCHAR" property="password"/>
+    <result column="phone" jdbcType="VARCHAR" property="phone"/>
     <result column="email" jdbcType="VARCHAR" property="email"/>
     <result column="work" jdbcType="VARCHAR" property="work"/>
     <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -206,11 +206,10 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
 
-
-  <select id="selectByTchManageList" resultType="UserPerInformationDTO" >
-    select u.user_id,u.user_id,u.sex,u.phone,u.email,u.`work`,
+  <select id="selectByTchManageList" resultMap="UserPerInformationDTO" >
+    select u.user_id,u.user_name,u.sex,u.phone,u.email,u.`work`,
            up.`password` from `user` u left outer join  user_password up
            on u.user_id = up.user_id
-    where role = #{role}
+    where role =  #{role}
   </select>
 </mapper>

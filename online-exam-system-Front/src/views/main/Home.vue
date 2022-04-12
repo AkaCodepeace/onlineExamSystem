@@ -14,7 +14,7 @@
             <li @click="myClasses">班级管理</li>
           </template>
           <template v-if="$role('admin')">
-            <li @click="">用户管理</li>
+            <li @click="userManage">用户管理</li>
             <li @click="myClasses">班级管理</li>
             <li @click="createExam">创建试卷</li>
           </template>
@@ -63,6 +63,13 @@ export default {
         name: "ClassesList",
       });
       this.setActiveName(["Classes","ClassesList","ClassesSpace"]);
+    },
+
+    userManage(){
+      this.$router.push({
+        name: "UserManage",
+      });
+      this.setActiveName("UserManage")
     },
 
     // 我参加过的考试

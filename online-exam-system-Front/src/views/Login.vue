@@ -65,7 +65,8 @@ export default {
               if(res.code==200){
                 var data = res.data;
                 //登录成功跳转
-                localStorage.setItem('_token', data.token);           
+                localStorage.setItem('_token', data.token);     
+                console.log(data.token)      
                 this.goRouter({name:"Home"})
               }
             })        

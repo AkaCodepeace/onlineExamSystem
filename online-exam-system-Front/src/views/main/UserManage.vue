@@ -16,43 +16,43 @@
               >
                 <el-table-column label="用戶id" width="110">
                   <template slot-scope="scope"
-                    >U{{ }}
+                    >U{{scope.row.userId}}
                   </template>
                 </el-table-column>
                 <el-table-column label="用戶名" min-width="150">
                   <template slot-scope="scope"
-                    >{{  }}
+                    >{{scope.row.userName}}
                   </template>
                 </el-table-column>
                 <el-table-column label="性別" width="150">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.sex}}
                   </template>
                 </el-table-column>
-                <el-table-column label="手機電話" width="150">
+                <el-table-column label="手机号码" width="200">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.phone}}
                   </template>
                 </el-table-column>
-                <el-table-column label="郵箱" width="150">
+                <el-table-column label="邮箱" width="200">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.email}}
                   </template>
                 </el-table-column>
                 <el-table-column label="身份" width="150">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.work}}
                   </template>
                 </el-table-column>
                 <el-table-column label="密碼" width="150">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.password}}
                   </template>
                 </el-table-column>
                 <el-table-column label="操作" width="300px" fixed="right">
                   <template slot-scope="scope">
                     <el-button
-                      type="info"
+                      type="primary"
                       size="mini"
                       plain
                       @click="editTestPaper(scope.row.examId)"
@@ -90,43 +90,43 @@
               >
                 <el-table-column label="用戶id" width="110">
                   <template slot-scope="scope"
-                    >U{{ }}
+                    >U{{scope.row.userId}}
                   </template>
                 </el-table-column>
                 <el-table-column label="用戶名" min-width="150">
                   <template slot-scope="scope"
-                    >{{  }}
+                    >{{scope.row.userName}}
                   </template>
                 </el-table-column>
                 <el-table-column label="性別" width="150">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.sex}}
                   </template>
                 </el-table-column>
-                <el-table-column label="手機電話" width="150">
+                <el-table-column label="手机号码" width="200">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.phone}}
                   </template>
                 </el-table-column>
-                <el-table-column label="郵箱" width="150">
+                <el-table-column label="邮箱" width="200">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.email}}
                   </template>
                 </el-table-column>
                 <el-table-column label="身份" width="150">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.work}}
                   </template>
                 </el-table-column>
                 <el-table-column label="密碼" width="150">
                   <template slot-scope="scope"
-                    >{{ }}
+                    >{{scope.row.password}}
                   </template>
                 </el-table-column>
                 <el-table-column label="操作" width="300px" fixed="right">
                   <template slot-scope="scope">
                     <el-button
-                      type="info"
+                      type="primary"
                       size="mini"
                       plain
                       @click="editTestPaper(scope.row.examId)"
@@ -193,7 +193,7 @@ export default {
   created() {},
   methods: {
     //查詢教師列表
-    getTchManageList() {
+    getTchManageList(user) {
       console.log(1)
       this.loading1 = true;
       let params = {
@@ -204,7 +204,7 @@ export default {
       setTimeout(() => {
         this.$http.get("/getUserManageList", { params }).then(res => {
           this.tchManageList = res.data.content;
-          this.total1 = res.data.total;
+          this.total1 = parseInt(res.data.total);
           this.loading1 = false;
         });
       }, 500);
@@ -212,20 +212,19 @@ export default {
 
     //查詢學生列表
     getstuManageList() {
-      console.log(2)
-      // this.loading2 = true;
-      // let params = {
-      //   pageSize: this.pageSize2,
-      //   currentPage: this.currentPage2,
-      //   role:"student"
-      // };
-      // setTimeout(() => {
-      //   this.$http.get("", { params }).then(res => {
-      //     this.stuManageList = res.data.content;
-      //     this.total2 = res.data.total;
-      //     this.loading2 = false;
-      //   });
-      // }, 500);
+      this.loading2 = true;
+      let params = {
+        pageSize: this.pageSize2,
+        currentPage: this.currentPage2,
+        role:"student"
+      };
+      setTimeout(() => {
+        this.$http.get("/getUserManageList", { params }).then(res => {
+          this.stuManageList = res.data.content;
+          this.total2 = parseInt(res.data.total);
+          this.loading2 = false;
+        });
+      }, 500);
     },
 
     //切换教師分页时触发
