@@ -24,7 +24,13 @@ public interface ExamService {
 
     Msg selectByClassesId(Integer classesId ,Integer userId);
 
-    Msg selectFinishExamList(Integer userId,int pageSize,int currentPage);
+    Msg selectFinishExamList(Integer userId,int pageSize,int currentPage,String keyword);
 
     Msg tchDeleteByPrimaryKey(int examId);
+
+    //
+    Msg selectAllExamList(String keyword);
+
+
+    Boolean selectByExamName(String examName);
 }

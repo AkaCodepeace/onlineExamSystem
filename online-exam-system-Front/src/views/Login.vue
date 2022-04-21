@@ -11,7 +11,7 @@
           <el-input type="password"  v-model="form.password" placeholder="请输入密码"></el-input>
         </el-form-item>
 
-        <div class="forget-password" :underline="false">忘记密码?</div>
+        <!-- <div class="forget-password" :underline="false">忘记密码?</div> -->
 
         <div class="login-but" @click="login('loginForm')">登录</div>
         <div class="register-but" @click="goRouter('register')">注册</div>
@@ -29,7 +29,7 @@ export default {
     return {
       form: {
         name: '762489117@qq.com',
-        password:'admin',
+        password:123456789,
       },
       rules:{
           name:[
@@ -65,7 +65,8 @@ export default {
               if(res.code==200){
                 var data = res.data;
                 //登录成功跳转
-                localStorage.setItem('_token', data.token);
+                localStorage.setItem('_token', data.token);     
+                console.log(data.token)      
                 this.goRouter({name:"Home"})
               }
             })        

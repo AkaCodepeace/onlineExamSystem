@@ -1,5 +1,6 @@
 package cn.com.testol.service.impl;
 
+import cn.com.testol.DTO.UserPerInformationDTO;
 import cn.com.testol.DTO.UserClassesDTO;
 import cn.com.testol.dao.ClassesDao;
 import cn.com.testol.dao.UserDao;
@@ -159,5 +160,43 @@ public class UserServiceImpl implements UserService{
     @Override
     public int deleteUser(int id) {
         return userDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public Msg getTchManageList(String role,String keyword) {
+        List<UserPerInformationDTO> res = userDao.selectByTchManageList(role, keyword);
+        return ResultUtil.success(res);
+    }
+
+    @Override
+    public Msg getUserMessageById(String userId) {
+        UserPerInformationDTO result = userDao.getUserMessageById(userId);
+        return ResultUtil.success(result);
+    }
+
+    @Override
+    public Msg updateUserAndPassword(User user, UserPerInformationDTO userPerInformationDTO) {
+
+        User userOld = userDao.selectByPrimaryKey(user.getUserId());
+
+        //旧的不等于新的且新的不存在于数据库中
+        if(!userOld.getEmail().equals(user.getEmail())&&userDao.selectByEmail(user.getEmail())!=null){
+            return ResultUtil.error(1001,"该邮箱地址已被使用");
+        }
+
+        if(!userOld.getPhone().equals(user.getPhone()) && (userDao.selectByPhone(user.getPhone())!=null&&!user.getPhone().equals(""))){
+            return ResultUtil.error(1002,"该手机号码已被使用");
+        }
+        user.setUpdateDate(new Date());
+        userDao.updateByPrimaryKeySelective(user);
+        userPasswordDao.updateById(user.getUserId(),userPerInformationDTO.getPassword());
+        return ResultUtil.success(userPerInformationDTO);
+    }
+
+    @Override
+    public Msg deleteUserManageById(int userId) {
+        userDao.deleteByPrimaryKey(userId);
+        userPasswordDao.deleteByPrimaryKey(userId);
+        return ResultUtil.success();
     }
 }

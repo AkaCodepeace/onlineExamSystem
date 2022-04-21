@@ -25,4 +25,6 @@ public interface ApprovalDao {
     int updateByPrimaryKey(Approval record);
 
     List<ApprovalDTO> selectByTchId(Integer tchId);
+
+    List<ApprovalDTO> selectAllList();
 }

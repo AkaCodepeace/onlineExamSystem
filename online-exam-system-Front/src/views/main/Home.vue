@@ -6,12 +6,17 @@
           <li @click="me">个人资料</li>
           <template v-if="$role('student')">
             <li @click="myClasses">我的班级</li>
-            <li @click="finishTest">我参加过的考试</li> 
+            <li @click="finishTest">参加过的考试</li> 
           </template>
           <template v-if="$role('teacher')">
             <li @click="createClasses">创建班级</li>
             <li @click="createExam">创建试卷</li>
-            <li @click="myClasses">我的班级</li>
+            <li @click="myClasses">班级管理</li>
+          </template>
+          <template v-if="$role('admin')">
+            <li @click="userManage">用户管理</li>
+            <li @click="myClasses">班级管理</li>
+            <li @click="createExam">创建试卷</li>
           </template>
         </ul>
       </div>
@@ -60,6 +65,13 @@ export default {
       this.setActiveName(["Classes","ClassesList","ClassesSpace"]);
     },
 
+    userManage(){
+      this.$router.push({
+        name: "UserManage",
+      });
+      this.setActiveName("UserManage")
+    },
+
     // 我参加过的考试
     finishTest() {
       this.$router.push({
@@ -70,11 +82,15 @@ export default {
 
     // 创建试卷
     createExam() {
-      const { href } = this.$router.resolve({
+      // const { href } = this.$router.resolve({
+      //   name: "createExam",
+      //   params: { type: 'add'}
+      // });
+      // window.open(href, "_blank");
+      this.$router.push({
         name: "createExam",
         params: { type: 'add'}
       });
-      window.open(href, "_blank");
     },
 
     // 创建班级

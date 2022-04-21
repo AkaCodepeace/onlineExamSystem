@@ -23,5 +23,5 @@ public interface UserGradeDao {
 
     List<UserGrade> selectByClassesId(Integer classesId, Integer examId);
 
-    List<UserGrade> selectByUserId(Integer userId);
+    List<UserGrade> selectByUserId(Integer userId,String keyword);
 }

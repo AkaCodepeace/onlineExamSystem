@@ -627,13 +627,12 @@ export default {
     //提交试卷
     submit(formName) {
       this.$refs[formName].validate((valid) => {
-          if (valid) {
-             /*  处理题目信息 */
+      if (valid) {
+      /*  处理题目信息 */
       var topicData = [];
       this.sortedTopics.forEach((element) => {
         if (element.topic_content.length != 0) {
           element.topic_content.forEach((item) => {
-            //深拷贝
             var newItem = JSON.parse(JSON.stringify(item));
             topicData.push(newItem);
           });
@@ -678,9 +677,6 @@ export default {
       testData.disruptOrder = testData.disruptOrder == true ? "1" : "0";
       testData.permitCopy = testData.permitCopy == true ? "1" : "0";
       testData.examName = this.testData.examName;
-
-      // console.log(testData);
-
       var request = {
         ...testData,
       };
@@ -701,15 +697,14 @@ export default {
       });
       this.dialogFormVisible = false;
              
-          }else{
-            this.dialogFormVisible = true
-            this.$message.error("编辑失败");
-            console.log('error submit!!');
-            return false;
-          }
+      }else{
+        this.dialogFormVisible = true
+        this.$message.error("编辑失败");
+        console.log('error submit!!');
+        return false;
+        }
       })
     },
-
     //编辑试卷---获取试卷信息
     async getTestPaper() {
       let params = {

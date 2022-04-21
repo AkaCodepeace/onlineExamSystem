@@ -33,7 +33,10 @@
       <div class="table">
         <el-table :data="testPaperList" style="width: 100%" v-loading="loading">
           <el-table-column label="试卷编号" width="110">
-            <template slot-scope="scope">E{{ scope.row.examId }} </template>
+            <template slot-scope="scope">U{{ scope.row.examId }} </template>
+          </el-table-column>
+          <el-table-column label="出卷者" min-width="220">
+            <template slot-scope="scope">{{ scope.row.userName }} </template>
           </el-table-column>
           <el-table-column label="试卷名称" min-width="220">
             <template slot-scope="scope">{{ scope.row.examName }} </template>
@@ -95,22 +98,22 @@
                 type="danger"
                 size="mini"
                 plain
-                @click="deleteTestPaper(scope.row.examId)"
+                @click="getDialog(scope.row.examId)"
                 >删除</el-button>
-               <!-- <el-dialog  
+               <el-dialog  
                 title="提示"
                 :visible.sync="dialogVisible"
                 width="30%"
                 :append-to-body="true"
               >
-              <span>是否确认删除试卷E{{scope.row.examId}}？</span>
+              <span>是否确认删除试卷E{{examId}}？</span>
                 <span slot="footer" class="dialog-footer" >
                   <el-button @click="dialogVisible = false">取 消</el-button>
-                  <el-button type="primary" @click="deleteTestPaper(scope.row.examId)"
+                  <el-button type="primary" @click="deleteTestPaper(examId)"
                     >确 定</el-button
                   >
                 </span>
-              </el-dialog>   -->
+              </el-dialog>  
             </template>
            
           </el-table-column>
@@ -142,6 +145,7 @@ export default {
   components: { ReleaseTest },
   data() {
     return {
+      examId:0,
       loading: true,
       dialogVisible:false,
       testPaperList: [], // 所有的试卷列表
@@ -160,6 +164,10 @@ export default {
   },
 
   methods: {
+    getDialog(examId){
+      this.dialogVisible = true,
+      this.examId = examId
+    },
     //获取试卷列表
     getTestPaperList(val = "") {
       this.loading = true;
@@ -171,6 +179,7 @@ export default {
       setTimeout(() => {
         this.$http.get("/getTestPaperByU_id", { params }).then((res) => {
           this.testPaperList = res.data.content;
+          console.log(this.testPaperList)
           this.total = parseInt(res.data.total);
           this.loading = false;
         });

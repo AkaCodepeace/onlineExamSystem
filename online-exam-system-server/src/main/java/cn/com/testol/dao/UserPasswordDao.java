@@ -2,6 +2,7 @@ package cn.com.testol.dao;
 
 import cn.com.testol.entity.UserPassword;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Mapper
@@ -18,4 +19,6 @@ public interface UserPasswordDao {
     int updateByPrimaryKeySelective(UserPassword record);
 
     int updateByPrimaryKey(UserPassword record);
+
+    int updateById(@Param("userId") Integer userId, @Param("password") String password);
 }

@@ -1,0 +1,61 @@
+.userManage{
+    height: 100%;
+
+    .content{
+        padding: 10px 20px;
+    }
+    .el-collapse-item__header{
+        font-size: 16px;
+        padding-left: 24px;
+
+    }
+
+    .list-header{
+        position: relative;
+        background: #fafafa;   
+        padding: 6px 24px;
+        border-radius: 4px;   
+        height: 60px;
+        box-sizing: border-box;
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+
+        span.classesTitle{
+            display: inline-block;
+            margin-right: 30px;
+            font-size: 16px;
+            line-height: 48px;
+        }
+    
+        .createClasses{
+            background: #4788cc;
+            color: #fff;
+            border-color: #f6f6f6;
+        }
+    
+        .query{
+            position: absolute;
+            right: 24px;
+            top: 14px;
+            width: 400px;
+            height: 40px;
+        }
+        .query .el-input{
+            width: 320px;
+            margin-right: 20px;
+        }
+        .query .el-button{
+            background: #4788cc;
+            border-color: #4788cc;
+            transition: 1s;
+        }
+    }
+    .list-header.isFixed{
+        position: absolute;
+        top: 10px;
+        left: 32px;
+        right: 32px;
+        z-index: 999;
+    }
+    
+}
+

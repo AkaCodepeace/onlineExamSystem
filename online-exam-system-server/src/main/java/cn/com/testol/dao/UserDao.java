@@ -1,8 +1,10 @@
 package cn.com.testol.dao;
 
+import cn.com.testol.DTO.UserPerInformationDTO;
 import cn.com.testol.DTO.UserClassesDTO;
 import cn.com.testol.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +33,8 @@ public interface UserDao {
     User loginByEmail(Integer userId, String email, String password);
 
     User loginByPhone(Integer userId, String phone, String password);
+
+    List<UserPerInformationDTO> selectByTchManageList(@Param("role") String role,@Param("keyword") String keyword);
+
+    UserPerInformationDTO getUserMessageById(@Param("userId") String userId);
 }

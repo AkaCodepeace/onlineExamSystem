@@ -61,14 +61,14 @@ export default {
         var checkPassword = (rule, value, callback) => { 
             var reg = /^\w{6,16}$/;
             if(!reg.test(value)){
-                callback(new Error('用户名只能是6-16位字母、数字、下划线'));
+                callback(new Error('密码只能是6-16位字母、数字、下划线'));
             }else{
                 callback()
             }
         };
         var checkPassword2 = (rule, value, callback) => { 
             if(value!=this.form.password){
-                callback(new Error('0!'));
+                callback(new Error('两次输入的密码不相同!'));
             }else{
                 callback()
             }
@@ -135,7 +135,7 @@ export default {
   },
   methods:{
     //表单提交
-    register(){
+    register(formName){
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
@@ -153,8 +153,7 @@ export default {
                 this.goRouter({name:"Login"})
                 this.$message.success("注册成功");
               }
-            })
-            
+            })  
           } else {
             console.log('error submit!!');
             return false;

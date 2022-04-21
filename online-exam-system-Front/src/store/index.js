@@ -8,6 +8,45 @@ export default new Vuex.Store({
   state: {
     activeName: 'Home',// 导航栏激活名称
 
+    adminNav: [
+      {
+        i:"el-icon-s-home",
+        title:"首页",
+        path:"/main/home",
+        name:"Home",
+      },
+      {
+        i:"el-icon-s-grid",
+        title:"班级管理",
+        path:"/main/classes/classesList",
+        name:["Classes","ClassesList","ClassesSpace"]
+      },
+      {
+        i:"el-icon-document-copy",
+        title:"考试管理",
+        path:"/main/myTest",
+        name:"MyTest"
+      },
+      {  i:"el-icon-s-custom",
+         title:"用户管理",
+         path:"/main/UserManage",
+         name:"UserManage"
+      },
+      {
+        i:"el-icon-message",
+        title:"我的消息",
+        path:"/main/myMessage/inboxes",
+        name:["Inboxes","SendMessage","MyMessage"]
+      },
+      {
+        i:"el-icon-user",
+        title:"个人中心",
+        path:"/main/me",
+        name:"Me"
+      },
+      
+    ],
+
     tchNav: [
       {
         i:"el-icon-s-home",
@@ -17,13 +56,13 @@ export default new Vuex.Store({
       },
       {
         i:"el-icon-s-grid",
-        title:"我的班级",
+        title:"班级管理",
         path:"/main/classes/classesList",
         name:["Classes","ClassesList","ClassesSpace"]
       },
       {
         i:"el-icon-document-copy",
-        title:"我的试卷",
+        title:"考试管理",
         path:"/main/myTest",
         name:"MyTest"
       },
@@ -73,7 +112,7 @@ export default new Vuex.Store({
       },
       {
         i:"el-icon-edit-outline",
-        title:"考过的试卷",
+        title:"完成的试卷",
         path:"/main/MyFinishTest",
         name:"MyFinishTest"
       },

@@ -32,4 +32,5 @@ public interface ClassesDao {
     List<ClassesExamDTO> selectByExamId(Integer examId);
 
 
+    List<ClassesUserDTO> selectAllClasses(String keyword);
 }

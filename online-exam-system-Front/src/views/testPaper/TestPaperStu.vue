@@ -466,7 +466,12 @@ export default {
         
         if(this.switchPage >= this.testData.switchPage){
           console.log('提交试卷');
-          this.submitTestpaper();
+          let flag = true;
+          if(flag){
+            flag = false;
+            this.submitTestpaper();
+          }
+         
         }else{
           this.$msgbox({
             title: '警告',

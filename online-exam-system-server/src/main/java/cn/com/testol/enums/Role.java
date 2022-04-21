@@ -2,7 +2,8 @@ package cn.com.testol.enums;
 
 public enum Role {
     student("学生","student"),
-    teacher("教师","teacher");
+    teacher("教师","teacher"),
+    admin("管理员","admin");
 
     private String name;
     private String value;
@@ -25,4 +26,5 @@ public enum Role {
     public void setValue(String value) {
         this.value = value;
     }
+
 }

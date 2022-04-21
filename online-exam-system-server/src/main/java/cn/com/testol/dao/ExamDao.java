@@ -1,9 +1,6 @@
 package cn.com.testol.dao;
 
-import cn.com.testol.DTO.ExamClassesDTO;
-import cn.com.testol.DTO.ExamTopicStuDTO;
-import cn.com.testol.DTO.ExamTopicTchDTO;
-import cn.com.testol.DTO.MarkExamInfoDTO;
+import cn.com.testol.DTO.*;
 import cn.com.testol.entity.Exam;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -25,7 +22,7 @@ public interface ExamDao {
 
     int updateByPrimaryKey(Exam record);
 
-    List<Exam> selectByCreatorId(Integer userId, String keyword);
+    List<ExamUserDTO> selectByCreatorId(Integer userId, String keyword);
 
     List<ExamClassesDTO> selectByClassesId(Integer classesId,Integer userId);
 
@@ -36,5 +33,8 @@ public interface ExamDao {
     MarkExamInfoDTO selestStuExamInfo(Integer classesId, Integer examId, Integer userId);
 
 
+    List<ExamUserDTO> selectAllExam(String keyword);
 
+
+    Exam selectByExamName(String examName);
 }

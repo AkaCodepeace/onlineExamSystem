@@ -32,10 +32,17 @@ public class ExamController {
             keyword = "";
         }
         String token =  request.getHeader("token");
+        String role = JwtUtil.getUserStatus(token);
         //获取token中的id
         int u_id=Integer.parseInt(Objects.requireNonNull(JwtUtil.getUserId(token)));
+        Msg result = null;
+        if (role.equals("teacher")) {
+            result = examService.selectByCreatorId(u_id,keyword);
+        }else if(role.equals("admin")) {
+            result = examService.selectAllExamList(keyword);
+        }
 
-        Msg result = examService.selectByCreatorId(u_id,keyword);
+
         Page page = new Page(pageSize,currentPage);
         page.build((List) result.getData());
         return ResultUtil.success(page);
@@ -57,13 +64,17 @@ public class ExamController {
 
     @ApiOperation(value = "获取学生已完成的试卷列表")
     @GetMapping("/getFinishExam")
-    public Msg getFinishExam(HttpServletRequest request,@RequestParam int pageSize,@RequestParam int currentPage){
+    public Msg getFinishExam(HttpServletRequest request,@RequestParam int pageSize,@RequestParam int currentPage,
+                             @RequestParam String keyword){
         String token =  request.getHeader("token");
+        if (keyword == null){
+            keyword = " ";
+        }
 
         //获取token中的id
         int u_id=Integer.parseInt(JwtUtil.getUserId(token));
 
-        return examService.selectFinishExamList(u_id, pageSize,currentPage);
+        return examService.selectFinishExamList(u_id, pageSize,currentPage,keyword);
     }
 
     //通过试卷id获取试卷信息(教师角色)
@@ -93,9 +104,12 @@ public class ExamController {
     public Msg createTestPaper(@RequestBody ExamTopicTchDTO examTopicTchDTO,HttpServletRequest request){
 
         String token =  request.getHeader("token");
-        if(!JwtUtil.getUserStatus(token).equals("teacher")){
+        if(JwtUtil.getUserStatus(token).equals("student")){
             return ResultUtil.error(400,"用户身份不正确");
         }
+         if(examService.selectByExamName(examTopicTchDTO.getExamName())){
+             return ResultUtil.error(401,"试卷名已存在，请求重写输入");
+         }
 
         int userId=Integer.parseInt(JwtUtil.getUserId(token));
         return examService.insert(examTopicTchDTO,userId);

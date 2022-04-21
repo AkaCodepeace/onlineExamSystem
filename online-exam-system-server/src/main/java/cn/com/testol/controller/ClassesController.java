@@ -101,16 +101,11 @@ public class ClassesController {
         return classesService.outClasses(u_id,c_id);
     }
 
-    /*
-    添加班级 createClasses
-        班级名称          name
-        班级简介          introduction
-        创建人id          creator_id
-        班级允许加入方式    jionWay
-         */
+
     @ApiOperation(value = "创建班级")
     @PostMapping(value = "/createClasses")
-    public Msg createClasses( HttpServletRequest request,@RequestBody Classes classes) throws ParseException {
+    public Msg createClasses( HttpServletRequest request,
+                              @RequestBody Classes classes) throws ParseException {
         String token =  request.getHeader("token");
         if(!JwtUtil.getUserStatus(token).equals("teacher")){
             return ResultUtil.error(400,"用户身份不正确");
@@ -118,7 +113,6 @@ public class ClassesController {
 
         //获取token中的id
         int u_id=Integer.parseInt(JwtUtil.getUserId(token));
-
         return classesService.createClasses(classes,u_id);
 
     }
@@ -159,7 +153,7 @@ public class ClassesController {
     @DeleteMapping(value = "/deleteClasses" )
     public Msg deleteClasses(HttpServletRequest request,@RequestParam int id){
         String token =  request.getHeader("token");
-        if(!JwtUtil.getUserStatus(token).equals("teacher")){
+        if(JwtUtil.getUserStatus(token).equals("student")){
             return ResultUtil.error(400,"用户身份不正确");
         }
 
