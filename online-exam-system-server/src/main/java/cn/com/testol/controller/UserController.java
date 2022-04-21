@@ -2,6 +2,7 @@ package cn.com.testol.controller;
 
 import cn.com.testol.DTO.LoginDTO;
 import cn.com.testol.DTO.RegisterDTO;
+import cn.com.testol.DTO.UserPerInformationDTO;
 import cn.com.testol.dao.UserDao;
 import cn.com.testol.utils.JwtUtil;
 import cn.com.testol.utils.Page;
@@ -46,7 +47,7 @@ public class UserController {
     @ApiOperation(value = "登录")
     @PostMapping(value="/login")
     public Msg login(@RequestBody LoginDTO loginDTO){
-//        System.out.println(name+password);
+
         User user = userService.login(loginDTO.getName(),loginDTO.getPassword());
 
         if (user!=null){
@@ -60,8 +61,6 @@ public class UserController {
             }
         }
         return ResultUtil.error(10001,"用户名或密码错误");
-
-
     }
 
     @ApiOperation(value = "注册")
@@ -106,6 +105,16 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "修改用户信息和密码")
+    @PutMapping(value = "/updateUserAndPassword")
+    public Msg updateUserAndPassword(@RequestBody UserPerInformationDTO userPerInformationDTO){
+        User user = new User();
+        BeanUtils.copyProperties(userPerInformationDTO,user);
+
+        return userService.updateUserAndPassword(user,userPerInformationDTO);
+
+    }
+
     @ApiOperation(value = "获取用户权限")
     @GetMapping(value = "getRole")
     public Msg getRole(HttpServletRequest request){
@@ -137,12 +146,37 @@ public class UserController {
 
     @ApiOperation(value = "教师或者学生信息表")
     @GetMapping(value = "/getUserManageList")
-    public Msg getTchManageList(@RequestParam int pageSize,@RequestParam int currentPage,@RequestParam String role) {
+    public Msg getTchManageList(@RequestParam int pageSize,
+                                @RequestParam int currentPage,
+                                @RequestParam String role,
+                                @RequestParam(required = false) String keyword) {
 
-        Msg result =  userService.getTchManageList(role);
+        if(keyword == null){
+            keyword = "";
+        }
+        Msg result =  userService.getTchManageList(role,keyword);
         Page  page = new Page(pageSize,currentPage);
         page.build((List) result.getData());
         return ResultUtil.success(page);
     }
+
+    @ApiOperation(value = "通过id查询老师或教师的信息")
+    @GetMapping(value="/getUserMessageById")
+    public Msg getUserMessageById(@RequestParam String userId){
+        return userService.getUserMessageById(userId);
+    }
+
+    //删除用户
+    @ApiOperation(value = "删除用户")
+    @DeleteMapping(value = "/deleteUserManageById" )
+    public Msg deleteTestPaperTp_id(HttpServletRequest request,@RequestParam int userId){
+        String token =  request.getHeader("token");
+        if(!JwtUtil.getUserStatus(token).equals("admin")) {
+            return ResultUtil.error(400, "用户身份不正确");
+        }
+
+        return  userService.deleteUserManageById(userId);
+    }
+
 
 }

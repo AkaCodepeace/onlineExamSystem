@@ -19,6 +19,25 @@
     <result column="repeat_test" jdbcType="INTEGER" property="repeatTest" />
     <result column="auto_mack" jdbcType="INTEGER" property="autoMack" />
   </resultMap>
+  <resultMap id="ExamUserDTO" type="cn.com.testol.DTO.ExamUserDTO">
+    <id column="exam_id" jdbcType="INTEGER" property="examId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    <result column="exam_name" jdbcType="VARCHAR" property="examName" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="time" jdbcType="INTEGER" property="time" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="topic_num" jdbcType="INTEGER" property="topicNum" />
+    <result column="total_score" jdbcType="FLOAT" property="totalScore" />
+    <result column="pass_mark" jdbcType="FLOAT" property="passMark" />
+    <result column="permit_copy" jdbcType="INTEGER" property="permitCopy" />
+    <result column="switch_page" jdbcType="INTEGER" property="switchPage" />
+    <result column="disrupt_order" jdbcType="INTEGER" property="disruptOrder" />
+    <result column="repeat_test" jdbcType="INTEGER" property="repeatTest" />
+    <result column="auto_mack" jdbcType="INTEGER" property="autoMack" />
+  </resultMap>
 
   <resultMap id="ExamTopicTchDTO" type="cn.com.testol.DTO.ExamTopicTchDTO">
     <id column="exam_id" jdbcType="INTEGER" property="examId" />
@@ -223,6 +242,9 @@
     from exam
     where exam_id = #{examId,jdbcType=INTEGER}
   </select>
+  <select id="selectByExamName" resultMap="BaseResultMap">
+    select * from exam where exam_name = #{examName}
+  </select>
   <select id="tchSelectByPrimaryKey" resultMap="ExamTopicTchDTO">
     select
     e.* , t.* , u.user_name as creator_name
@@ -245,11 +267,20 @@
     left join user_topic ut on ut.user_id=${userId} and ut.exam_id=ec.exam_id and ut.topic_id=t.topic_id and ut.classes_id = ec.classes_id
     where e.exam_id = #{examId,jdbcType=INTEGER}
   </select>
-  <select id="selectByCreatorId" resultMap="BaseResultMap">
+  <select id="selectByCreatorId" resultMap="ExamUserDTO">
     select
-     *
-    from exam
-    where creator_id = #{userId,jdbcType=INTEGER} and (exam_id like concat('%',#{keyword},'%') or exam_name like concat('%',#{keyword},'%'))
+    e.*,u.user_name
+    from exam e
+    join user u  on e.creator_id = u.user_id
+    where e.creator_id = #{userId,jdbcType=INTEGER} and (e.exam_id like concat('%',#{keyword},'%') or e.exam_name like concat('%',#{keyword},'%'))
+    order by update_date desc
+  </select>
+  <select id="selectAllExam" resultMap="ExamUserDTO">
+    select
+      e.*,u.user_name
+    from exam e
+    join user u  on e.creator_id = u.user_id
+    where  (e.exam_id like concat('%',#{keyword},'%') or e.exam_name like concat('%',#{keyword},'%'))
     order by update_date desc
   </select>
     <select id="selectByClassesId" resultMap="ExamClassesDTO">

@@ -37,12 +37,23 @@
       where a.teacher_id = #{tchId,jdbcType=INTEGER} and a.status = 0
       order by a.apply_date desc
     </select>
+   <select id="selectAllList" resultMap="ApprovalDTO">
+     select
+       a.*, u.user_name as student_name, c.classes_name
+     from approval a
+     join user u on a.student_id = u.user_id
+     join classes c on c.classes_id = a.classes_id
+     where a.status = 0
+     order by a.apply_date desc
+   </select>
+
     <select id="selectByRecord" resultMap="BaseResultMap">
       select
       *
       from approval
       where student_id = #{stuId,jdbcType=INTEGER} and classes_id = #{classesId,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from approval
     where id = #{id,jdbcType=INTEGER}

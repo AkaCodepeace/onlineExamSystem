@@ -34,5 +34,7 @@ public interface UserDao {
 
     User loginByPhone(Integer userId, String phone, String password);
 
-    List<UserPerInformationDTO> selectByTchManageList(@Param("role") String role);
+    List<UserPerInformationDTO> selectByTchManageList(@Param("role") String role,@Param("keyword") String keyword);
+
+    UserPerInformationDTO getUserMessageById(@Param("userId") String userId);
 }

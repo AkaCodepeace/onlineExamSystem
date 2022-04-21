@@ -45,7 +45,7 @@ public class ClassesServiceImpl implements ClassesService {
             }
 
             if(role.equals(Role.admin.getValue())){
-                userClassesList = classesDao.selectByCreatorId(u_id,keyword);
+                userClassesList = classesDao.selectAllClasses(keyword);
             }
             
             return ResultUtil.success(userClassesList);

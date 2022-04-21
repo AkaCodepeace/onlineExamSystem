@@ -11,7 +11,7 @@
           <el-input type="password"  v-model="form.password" placeholder="请输入密码"></el-input>
         </el-form-item>
 
-        <div class="forget-password" :underline="false">忘记密码?</div>
+        <!-- <div class="forget-password" :underline="false">忘记密码?</div> -->
 
         <div class="login-but" @click="login('loginForm')">登录</div>
         <div class="register-but" @click="goRouter('register')">注册</div>
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       form: {
-        name: '1063098164@qq.com',
+        name: '762489117@qq.com',
         password:123456789,
       },
       rules:{

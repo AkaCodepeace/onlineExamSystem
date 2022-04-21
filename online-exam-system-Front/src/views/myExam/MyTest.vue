@@ -35,6 +35,9 @@
           <el-table-column label="试卷编号" width="110">
             <template slot-scope="scope">U{{ scope.row.examId }} </template>
           </el-table-column>
+          <el-table-column label="出卷者" min-width="220">
+            <template slot-scope="scope">{{ scope.row.userName }} </template>
+          </el-table-column>
           <el-table-column label="试卷名称" min-width="220">
             <template slot-scope="scope">{{ scope.row.examName }} </template>
           </el-table-column>
@@ -176,6 +179,7 @@ export default {
       setTimeout(() => {
         this.$http.get("/getTestPaperByU_id", { params }).then((res) => {
           this.testPaperList = res.data.content;
+          console.log(this.testPaperList)
           this.total = parseInt(res.data.total);
           this.loading = false;
         });

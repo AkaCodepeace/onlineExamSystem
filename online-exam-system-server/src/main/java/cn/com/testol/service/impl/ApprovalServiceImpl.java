@@ -39,6 +39,14 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public Msg getAllApprovalList(int pageSize, int currentPage) {
+        List<ApprovalDTO> approvalList = approvalDao.selectAllList();
+        Page<ApprovalDTO> page = new Page<>(pageSize,currentPage);
+        page.build(approvalList);
+        return ResultUtil.success(page);
+    }
+
+    @Override
     public Msg approval(Integer tchId, Integer approvalId, Integer status) {
         try {
             Approval approval = approvalDao.selectByPrimaryKey(approvalId);
@@ -61,5 +69,7 @@ public class ApprovalServiceImpl implements ApprovalService {
             return ResultUtil.error(100,"请求失败",e.toString());
         }
     }
+
+
 
 }

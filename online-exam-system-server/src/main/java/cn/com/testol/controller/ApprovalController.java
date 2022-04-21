@@ -21,8 +21,13 @@ public class ApprovalController {
     @GetMapping("/approval/list")
     public Msg approvalList(HttpServletRequest request, @RequestParam int pageSize, @RequestParam int currentPage){
         String token =  request.getHeader("token");
+        String role = JwtUtil.getUserStatus(token);
         int u_id=Integer.parseInt(Objects.requireNonNull(JwtUtil.getUserId(token)));
+        if(role.equals("admin")){
+            return approvalService.getAllApprovalList(pageSize,currentPage);
+        }
         return approvalService.getApprovalList(u_id,pageSize,currentPage);
+
     }
 
     @ApiOperation(value = "审批")

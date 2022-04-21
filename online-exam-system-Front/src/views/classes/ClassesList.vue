@@ -3,8 +3,9 @@
 
     <div class="list-header" :class="isFixed?'isFixed':''" :style="topic_nav_style">
       <span v-if="$role('teacher')" class="classesTitle">我创建的班级</span>
-      <span v-else class="classesTitle">我加入的班级</span>
-      <el-button type="primary" size="medium" icon="el-icon-plus" v-if="$role('teacher')" @click="createClasses()" class="createClasses">创建班级</el-button>
+      <span v-if="$role('admin')" class="classesTitle">班级信息</span>
+      <span v-if="$role('student')" class="classesTitle">我加入的班级</span>
+      <el-button type="primary" size="medium" icon="el-icon-plus" v-if="!$role('student')" @click="createClasses()" class="createClasses">创建班级</el-button>
       <div class="enterClasses">
         <el-input v-model="classesKeyword" size="small" placeholder="请输入班级编号或者班级名称" prefix-icon="el-icon-search"></el-input>
         <el-button type="primary" size="small" @click="getClasses(classesKeyword)">查询</el-button>
@@ -36,8 +37,11 @@
         <div class="title-but">
           <el-button size="medium" type="primary" @click="openPaper(item.classesId,item.classesName)">进入班级</el-button>
           <el-button size="medium" type="info" @click="editClasses(item)" plain v-if="$role('teacher')">设置</el-button>
-          <el-button size="medium" type="danger" plain @click="outClasses(item.classesId)">
-            {{$role('teacher') ? '删除班级':'退出班级'}}
+          <el-button v-if="$role('student')" size="medium" type="danger" plain @click="outClasses(item.classesId)">
+            退出班级
+          </el-button>
+          <el-button v-if="!$role('student')" size="medium" type="danger" plain @click="deleteClasses(item.classesId)">
+            删除班级
           </el-button>
         </div>
 
@@ -132,7 +136,28 @@ export default {
       this.$refs.EditClasses.dialog = true  
       this.$refs.EditClasses.editClassesData = JSON.parse(JSON.stringify(val))  
     },
-
+    // 删除班级
+    deleteClasses(c_id){
+      this.$confirm(" 这将会删除所有与班级有关的信息", "是否确定删除班级?", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "info",
+      })
+      .then(()=>{
+        var params = {
+          id: c_id
+        };
+        console.log(c_id)
+        this.$http.delete('/deleteClasses',{params}).then(res =>{
+            console.log(1)
+            if(res.code == 200){
+              this.$message.success('删除班级成功')
+              this.getClasses();
+            }
+        })
+      })
+      .catch(() => {});
+    },
     //退出班级
     outClasses(c_id) {
       this.$confirm(" 这将会删除所有与班级有关的信息", "是否确定退出班级?", {

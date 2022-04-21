@@ -210,6 +210,15 @@
     select u.user_id,u.user_name,u.sex,u.phone,u.email,u.`work`,
            up.`password` from `user` u left outer join  user_password up
            on u.user_id = up.user_id
-    where role =  #{role}
+    where role =  #{role} and (u.user_id like concat('%',#{keyword},'%') or u.user_name like concat('%',#{keyword},'%'))
+  </select>
+
+  <select id="getUserMessageById" resultType="cn.com.testol.DTO.UserPerInformationDTO">
+    select u.user_id as userId,u.user_name as userName,u.sex,u.phone,u.email,u.`work`,
+           up.`password` from `user` u left outer join  user_password up
+           on u.user_id = up.user_id
+    <where>
+      u.user_id  = #{userId}
+    </where>
   </select>
 </mapper>

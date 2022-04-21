@@ -137,8 +137,8 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Msg selectByCreatorId(Integer userId, String keyword) {
-        List<Exam> examList = examDao.selectByCreatorId(userId,keyword);
-        for (Exam e:examList){
+        List<ExamUserDTO> examList = examDao.selectByCreatorId(userId,keyword);
+        for (ExamUserDTO e:examList){
             e.setReleasing(0);
             List<ExamClasses> examClassesList = examClassesDao.selectByExamId(e.getExamId());
             if(examClassesList.size() > 0){
@@ -224,11 +224,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Msg selectFinishExamList(Integer userId, int pageSize, int currentPage) {
-        List<UserGrade> userGradeDTOList = userGradeDao.selectByUserId(userId);
+    public Msg selectFinishExamList(Integer userId, int pageSize, int currentPage,String keyword) {
+        List<UserGrade> userGradeDTOList = userGradeDao.selectByUserId(userId,keyword);
         for(UserGrade ug:userGradeDTOList){
             ReleaseExamDTO examClasses = examClassesDao.selectRecord(ug.getClassesId(),ug.getExamId());
-            if(examClasses != null &&examClasses.getPublishScore() != 1){
+            if(examClasses != null && examClasses.getPublishScore() != 1){
                 ug.setGrade(null);
             }
         }
@@ -248,6 +248,33 @@ public class ExamServiceImpl implements ExamService {
         examDao.deleteByPrimaryKey(examId);
         return ResultUtil.success();
 
+    }
+
+    @Override
+    public Msg selectAllExamList(String keyword) {
+        List<ExamUserDTO> examList = examDao.selectAllExam(keyword);
+        for (ExamUserDTO e:examList){
+            e.setReleasing(0);
+            List<ExamClasses> examClassesList = examClassesDao.selectByExamId(e.getExamId());
+            if(examClassesList.size() > 0){
+                e.setReleasing(1);
+            }
+        }
+        if(examList != null){
+            return ResultUtil.success(examList);
+        }else{
+            return ResultUtil.error(100,"请求失败");
+        }
+    }
+
+    @Override
+    public Boolean selectByExamName(String examName) {
+
+        Exam exam = examDao.selectByExamName(examName);
+        if (exam != null) {
+            return true;
+        }
+        return false;
     }
 
 

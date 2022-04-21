@@ -3,10 +3,10 @@
     <TopTab title="我考过的试卷">
       <div class="tab-content">
         <div class="list-header">
-          <span class="list-title">我考过的试卷</span>
+          <span class="list-title">我完成的试卷</span>
           <div class="query">
             <el-input v-model="keyword" size="small" placeholder="请输入试卷编号或者试卷名称" prefix-icon="el-icon-search"></el-input>
-            <el-button type="primary" size="small" @click="getTestPaperList(keyword)">查询</el-button>
+            <el-button type="primary" size="small" @click="getFinishExamList(keyword)">查询</el-button>
           </div>
         </div>
 
@@ -77,6 +77,7 @@ export default {
       let params = {
         pageSize: this.pageSize,
         currentPage: this.currentPage,
+        keyword: this.keyword
       };
       setTimeout(() => {
         this.$http.get("/getFinishExam", { params }).then((res) => {
@@ -94,14 +95,21 @@ export default {
 
     //打开试卷
     goExam(examId,classesId){
-      var { href } = this.$router.resolve({
+      this.$router.push({
         name: "TestPaperStu",
         params: {
           tp_id: examId,
           c_id: classesId,
         },
       });
-      window.open(href, "_blank");
+      // var { href } = this.$router.resolve({
+      //   name: "TestPaperStu",
+      //   params: {
+      //     tp_id: examId,
+      //     c_id: classesId,
+      //   },
+      // });
+      // window.open(href, "_blank");
     },
 
     //进入班级

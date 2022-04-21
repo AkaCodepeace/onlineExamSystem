@@ -11,9 +11,7 @@
         <div class="name">{{$store.state.userName}}</div>
         <div class="dropdown" >
           <div class="item" @click="goRouter('/main/me','me')">个人中心</div>
-          <div class="item" v-if="$role('teacher')" @click="goRouter('/main/myMessage/inboxes','myMessage')">我的消息</div>
-          <!-- <div class="item" v-if="$role('teacher')" @click="changeRole()">变更为学生身份</div>
-          <div class="item" v-if="$role('student')" @click="changeRole()">变更为教师身份</div> -->
+          <div class="item" v-if="!$role('student')" @click="goRouter('/main/myMessage/inboxes','myMessage')">我的消息</div>
           <div class="item" @click="loginOut">退出登录</div>
         </div>
       </div>
