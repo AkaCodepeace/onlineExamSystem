@@ -242,9 +242,9 @@
     from exam
     where exam_id = #{examId,jdbcType=INTEGER}
   </select>
-  <select id="selectByExamName" resultMap="BaseResultMap">
-    select * from exam where exam_name = #{examName}
-  </select>
+<!--  <select id="selectByExamName" resultMap="BaseResultMap">-->
+<!--    select * from exam where exam_name = #{examName}-->
+<!--  </select>  -->
   <select id="tchSelectByPrimaryKey" resultMap="ExamTopicTchDTO">
     select
     e.* , t.* , u.user_name as creator_name

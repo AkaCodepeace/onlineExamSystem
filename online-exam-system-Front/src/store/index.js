@@ -23,7 +23,7 @@ export default new Vuex.Store({
       },
       {
         i:"el-icon-document-copy",
-        title:"考试管理",
+        title:"试卷管理",
         path:"/main/myTest",
         name:"MyTest"
       },
@@ -62,7 +62,7 @@ export default new Vuex.Store({
       },
       {
         i:"el-icon-document-copy",
-        title:"考试管理",
+        title:"试卷管理",
         path:"/main/myTest",
         name:"MyTest"
       },

@@ -267,15 +267,15 @@ public class ExamServiceImpl implements ExamService {
         }
     }
 
-    @Override
-    public Boolean selectByExamName(String examName) {
-
-        Exam exam = examDao.selectByExamName(examName);
-        if (exam != null) {
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public Boolean selectByExamName(String examName) {
+//
+//        Exam exam = examDao.selectByExamName(examName);
+//        if (exam != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 
 
 }

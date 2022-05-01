@@ -44,11 +44,8 @@ public class ClassesController {
         if (examId != null){
             return classesService.queryClassesByExamId(examId);
         }
-
         String token =  request.getHeader("token");
-        //获取token中的id
         int u_id=Integer.parseInt(JwtUtil.getUserId(token));
-
         if(keyword == null){
             keyword = "";
         }
@@ -131,7 +128,7 @@ public class ClassesController {
         if(!JwtUtil.getUserStatus(token).equals("teacher")){
             return ResultUtil.error(400,"用户身份不正确");
         }
-        //获取token中的id
+
         Integer userId=Integer.parseInt(JwtUtil.getUserId(token));
 
         return classesService.updateClasses(classes,userId);
@@ -153,10 +150,6 @@ public class ClassesController {
     @DeleteMapping(value = "/deleteClasses" )
     public Msg deleteClasses(HttpServletRequest request,@RequestParam int id){
         String token =  request.getHeader("token");
-        if(JwtUtil.getUserStatus(token).equals("student")){
-            return ResultUtil.error(400,"用户身份不正确");
-        }
-
         int result= classesService.deleteClasses(id);
         if(result>0){
             return ResultUtil.success();

@@ -35,9 +35,9 @@
         <el-button size="medium" @click="lastStep()">
           {{releaseTestSteps==1?'上一步':'取消'}}
         </el-button>
-        <el-button type="info" v-if="releaseTestSteps==0" size="medium">
+        <!-- <el-button type="info" v-if="releaseTestSteps==0" size="medium">
           取消发布
-        </el-button>
+        </el-button> -->
         <el-button type="primary" @click="nestStep()" size="medium">
           {{releaseTestSteps==0?'下一步':'发布考试'}}
         </el-button>
@@ -120,13 +120,11 @@ export default {
     async getTestPaper_classes(tp_id) {
       let params = {
         examId: tp_id,
-        pageSize: 9999,
+        pageSize: 10,
         currentPage: 1,
       };
       await this.$http.get("/queryClassesList", { params }).then((res) => {
         this.testPaper_classes = res.data;
-        console.log(this.testPaper_classes);
-        console.log(this.classesList);
         //修改班级考试信息
         for (let tc of this.testPaper_classes) {
           for (let c of this.classesList) {

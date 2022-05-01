@@ -680,7 +680,6 @@ export default {
       var request = {
         ...testData,
       };
-
       if (this.params.type === "edit") {
         var url = "/updateTestPaper";
       } else {

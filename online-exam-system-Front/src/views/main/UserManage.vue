@@ -340,10 +340,8 @@ export default {
               this.dialogFormVisible = false;
               if(this.role == "teacher"){
                 this.$set(this.tchManageList, this.index, res.data);
-                //console.log(111)
               }else if(this.role == "student"){
                 this.$set(this.stuManageList, this.index, res.data);
-                //console.log(222)
               }
               
             }

@@ -36,5 +36,5 @@ public interface ExamDao {
     List<ExamUserDTO> selectAllExam(String keyword);
 
 
-    Exam selectByExamName(String examName);
+//    Exam selectByExamName(String examName);
 }

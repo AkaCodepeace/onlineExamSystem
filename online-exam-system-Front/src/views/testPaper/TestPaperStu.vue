@@ -215,7 +215,13 @@ export default {
 
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
-    window.addEventListener("visibilitychange", this.visibilitychange);
+    window.addEventListener("visibilitychange", this.visibilitychange,true);
+  },
+  
+  beforeDestroy() {
+    window.removeEventListener("visibilitychange",this.visibilitychange,true);
+    window.removeEventListener("scroll", this.handleScroll,true);
+    console.log("我destroyed了")
   },
 
   methods: {
@@ -271,6 +277,7 @@ export default {
         if (res.code == 200) {
           this.$message.success(res.msg);
           location.reload()
+          this.testData.switchPage = -1
         }
       })
     },

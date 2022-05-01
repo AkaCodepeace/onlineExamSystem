@@ -2,7 +2,6 @@ package cn.com.testol.controller;
 
 import cn.com.testol.DTO.ExamTopicTchDTO;
 import cn.com.testol.DTO.StuSubmitExamDTO;
-import cn.com.testol.entity.Exam;
 import cn.com.testol.service.ExamService;
 import cn.com.testol.utils.JwtUtil;
 import cn.com.testol.utils.Msg;
@@ -26,14 +25,14 @@ public class ExamController {
 
     @ApiOperation(value = "获取用户创建的试卷")
     @GetMapping("/getTestPaperByU_id")
-    public Msg getTestPaperByU_id(HttpServletRequest request,@RequestParam int pageSize,@RequestParam int currentPage,
+    public Msg getTestPaperByU_id(HttpServletRequest request,@RequestParam int pageSize,
+                                  @RequestParam int currentPage,
                                   @RequestParam(required = false) String keyword){
         if(keyword == null){
             keyword = "";
         }
         String token =  request.getHeader("token");
         String role = JwtUtil.getUserStatus(token);
-        //获取token中的id
         int u_id=Integer.parseInt(Objects.requireNonNull(JwtUtil.getUserId(token)));
         Msg result = null;
         if (role.equals("teacher")) {
@@ -41,8 +40,6 @@ public class ExamController {
         }else if(role.equals("admin")) {
             result = examService.selectAllExamList(keyword);
         }
-
-
         Page page = new Page(pageSize,currentPage);
         page.build((List) result.getData());
         return ResultUtil.success(page);
@@ -104,13 +101,6 @@ public class ExamController {
     public Msg createTestPaper(@RequestBody ExamTopicTchDTO examTopicTchDTO,HttpServletRequest request){
 
         String token =  request.getHeader("token");
-        if(JwtUtil.getUserStatus(token).equals("student")){
-            return ResultUtil.error(400,"用户身份不正确");
-        }
-         if(examService.selectByExamName(examTopicTchDTO.getExamName())){
-             return ResultUtil.error(401,"试卷名已存在，请求重写输入");
-         }
-
         int userId=Integer.parseInt(JwtUtil.getUserId(token));
         return examService.insert(examTopicTchDTO,userId);
     }

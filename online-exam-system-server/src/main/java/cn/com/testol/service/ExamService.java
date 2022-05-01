@@ -32,5 +32,5 @@ public interface ExamService {
     Msg selectAllExamList(String keyword);
 
 
-    Boolean selectByExamName(String examName);
+//    Boolean selectByExamName(String examName);
 }

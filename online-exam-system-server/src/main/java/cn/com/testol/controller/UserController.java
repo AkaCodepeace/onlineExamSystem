@@ -112,7 +112,6 @@ public class UserController {
         BeanUtils.copyProperties(userPerInformationDTO,user);
 
         return userService.updateUserAndPassword(user,userPerInformationDTO);
-
     }
 
     @ApiOperation(value = "获取用户权限")
@@ -169,12 +168,11 @@ public class UserController {
     //删除用户
     @ApiOperation(value = "删除用户")
     @DeleteMapping(value = "/deleteUserManageById" )
-    public Msg deleteTestPaperTp_id(HttpServletRequest request,@RequestParam int userId){
+    public Msg deleteUserManageById(HttpServletRequest request,@RequestParam int userId){
         String token =  request.getHeader("token");
         if(!JwtUtil.getUserStatus(token).equals("admin")) {
             return ResultUtil.error(400, "用户身份不正确");
         }
-
         return  userService.deleteUserManageById(userId);
     }
 

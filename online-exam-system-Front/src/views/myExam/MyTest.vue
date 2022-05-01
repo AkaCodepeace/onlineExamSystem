@@ -33,7 +33,7 @@
       <div class="table">
         <el-table :data="testPaperList" style="width: 100%" v-loading="loading">
           <el-table-column label="试卷编号" width="110">
-            <template slot-scope="scope">U{{ scope.row.examId }} </template>
+            <template slot-scope="scope">E{{ scope.row.examId }} </template>
           </el-table-column>
           <el-table-column label="出卷者" min-width="220">
             <template slot-scope="scope">{{ scope.row.userName }} </template>
@@ -168,7 +168,7 @@ export default {
       this.dialogVisible = true,
       this.examId = examId
     },
-    //获取试卷列表
+    //查询试卷信息
     getTestPaperList(val = "") {
       this.loading = true;
       let params = {
